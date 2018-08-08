@@ -14,8 +14,25 @@ export class DetailsScreen extends React.Component {
     static navigationOptions = ({ navigation }) => {
         return {
             title: navigation.getParam('ToDoItem', 'Details Screen'),
+            headerRight: (
+
+                <Button
+                    onPress={() => alert('This is a button!')}
+                    title="Info"
+                    color="#fff"
+                />
+            ),
+
+            headerLeft: ( 
+                <Button 
+                    onPress={() => navigation.navigate('MyModal')}
+                    title="Modal"
+                    color="#fff"
+                />
+            ),
         };
     };
+    
 
     componentDidMount() {
         const ToDoItem = this.props.navigation.getParam('ToDoItem');
@@ -36,3 +53,4 @@ export class DetailsScreen extends React.Component {
         );
     }
 }
+
