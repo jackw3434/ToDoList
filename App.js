@@ -46,7 +46,7 @@ class TodoList extends React.Component {
         () => Tasks.save(this.state.tasks)
       );
     }
-  };
+  };  
 
 
 
