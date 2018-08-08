@@ -20,8 +20,7 @@ const viewPadding = 10;
 class TodoList extends React.Component {
   state = {
     tasks: [],
-    text: "",
-    generalText : "HELLO"
+    text: ""    
   };
   
   changeTextHandler = text => {
@@ -46,7 +45,7 @@ class TodoList extends React.Component {
         () => Tasks.save(this.state.tasks)
       );
     }
-  };  
+  }; 
 
 
 
@@ -77,8 +76,7 @@ class TodoList extends React.Component {
     Tasks.all(tasks => this.setState({ tasks: tasks || [] }));
   }
 
-  navigateTo(target) {
-   
+  navigateTo(target) {   
 
     this.props.navigation.navigate(target);
   }
@@ -100,7 +98,7 @@ class TodoList extends React.Component {
                 </Text>
                 <Button title="Nav" onPress={() => {
                  this.props.navigation.navigate('Details',
-                 {ToDoItem: item.text})
+                 {ToDoItem: item.text, Index: index})
                 }}/>
 
                 <Button title="Show Alert" onPress={() => Alert.alert('Alert Title', item.text,
@@ -186,12 +184,15 @@ const styles = StyleSheet.create({
 
 class DetailsScreen extends React.Component {
   state = {
-    Item : null
+    Item : null,
+    Index: null
   }
   
   componentDidMount() {
    const ToDoItem = this.props.navigation.getParam('ToDoItem');
+   const IndexParam = this.props.navigation.getParam('Index');
    this.setState({Item: ToDoItem});
+   this.setState({Index: IndexParam});
   }
 
   render() {  
@@ -201,6 +202,7 @@ class DetailsScreen extends React.Component {
         <Text>Details Screen</Text>
         <Button title="Go Back" onPress={() => this.props.navigation.goBack()}/>
         <Text>To Do Item: {JSON.stringify(this.state.Item)}</Text>
+        <Text>Index: {JSON.stringify(this.state.Index)}</Text>
       </View>
     );
   }
