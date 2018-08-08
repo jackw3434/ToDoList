@@ -40,7 +40,6 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: "center",
         alignItems: "center",
-        backgroundColor: "#F5FCFF",
         padding: viewPadding,
         paddingTop: 20
     },
@@ -80,13 +79,6 @@ export class TodoList extends React.Component {
 
     static navigationOptions = {
         title: 'To Do List',
-        headerStyle: {
-            backgroundColor: '#f4511e',
-        },
-        headerTintColor: '#fff',
-        headerTitleStyle: {
-            fontWeight: 'bold',
-        },
     };
 
     changeTextHandler = text => {
@@ -136,7 +128,6 @@ export class TodoList extends React.Component {
             isAndroid ? "keyboardDidHide" : "keyboardWillHide",
             () => this.setState({ viewPadding: viewPadding })
         );
-
         Tasks.all(tasks => this.setState({ tasks: tasks || [] }));
     }
 
@@ -184,7 +175,6 @@ export class TodoList extends React.Component {
                     placeholder="Add Tasks"
                     returnKeyType="done"
                     returnKeyLabel="done"
-
                 />
             </View>
         );

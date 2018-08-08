@@ -14,13 +14,6 @@ export class DetailsScreen extends React.Component {
     static navigationOptions = ({ navigation }) => {
         return {
             title: navigation.getParam('ToDoItem', 'Details Screen'),
-            headerStyle: {
-                backgroundColor: '#008080',
-            },
-            headerTintColor: '#fff',
-            headerTitleStyle: {
-                fontWeight: 'bold',
-            },
         };
     };
 
@@ -34,7 +27,7 @@ export class DetailsScreen extends React.Component {
     render() {
 
         return (
-            <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: '#F5FCFF' }}>
+            <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
                 <Text>Details Screen</Text>
                 <Button title="Go Back" onPress={() => this.props.navigation.goBack()} />
                 <Text>To Do Item: {JSON.stringify(this.state.Item)}</Text>
