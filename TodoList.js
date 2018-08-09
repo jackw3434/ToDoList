@@ -76,7 +76,8 @@ const styles = StyleSheet.create({
 export class TodoList extends React.Component {
     state = {
         tasks: [],
-        text: ""       
+        text: "" ,
+             
     };
 
     static navigationOptions = {
@@ -97,8 +98,11 @@ export class TodoList extends React.Component {
 
                     var item = { key: tasks.length, text: text };
 
+                    var newArray = tasks;
+                    newArray.unshift(item);
+
                     return {
-                        tasks: tasks.concat(item),
+                        tasks: tasks.concat(newArray),
                         text: ""
                     };
                 },
@@ -168,7 +172,7 @@ export class TodoList extends React.Component {
                         <View>
                             <View style={styles.listItemCont}>
                                 <Text style={styles.listItem}>
-                                    {item.title}
+                                    {item.text}{item.title}
                                 </Text>
                                 <Button title="Go" onPress={() => {
                                     this.props.navigation.navigate('Details',
@@ -185,7 +189,7 @@ export class TodoList extends React.Component {
                             <View style={styles.hr} />
                         </View>}
                 />
-                <TextInput                
+                <TextInput                                
                     style={styles.textInput}
                     onChangeText={this.changeTextHandler}
                     onSubmitEditing={this.addTask}
