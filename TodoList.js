@@ -4,80 +4,21 @@ import {
     Text,
     View,
     FlatList,
-    AsyncStorage,
     Button,
     TextInput,
     Keyboard,
     Platform,
     Alert
 } from "react-native";
-
+import { ToDoItemClass } from "./ToDoItemClass";
 
 const isAndroid = Platform.OS == "android";
 const viewPadding = 10;
 
-let Tasks = {
-    convertToArrayOfObject(tasks, callback) {
-        return callback(
-            tasks ? tasks.split("||").map((task, i) => ({ key: i, text: task })) : []
-        );
-    },
-    convertToStringWithSeparators(tasks) {
-        return tasks.map(task => task.text).join("||");
-    },
-    all(callback) {
-        return AsyncStorage.getItem("TASKS", (err, tasks) =>
-            this.convertToArrayOfObject(tasks, callback)
-        );
-    },
-    save(tasks) {
-        AsyncStorage.setItem("TASKS", this.convertToStringWithSeparators(tasks));
-    }
-};
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-        padding: viewPadding,
-        paddingTop: 20
-    },
-    list: {
-        width: "100%",
-    },
-    listItem: {
-        paddingTop: 2,
-        paddingBottom: 2,
-        fontSize: 18,
-        textAlign: "right",
-        flex: 1, 
-        flexWrap: 'wrap'
-    },
-    hr: {
-        height: 1,
-        backgroundColor: "gray"
-    },
-    listItemCont: {
-        flexDirection: "row",
-        alignItems: "center",
-        justifyContent: "space-between"
-    },
-    textInput: {
-        height: 40,
-        paddingRight: 10,
-        paddingLeft: 10,
-        borderColor: "gray",
-        borderWidth: isAndroid ? 0 : 1,
-        width: "100%"
-    }
-});
-
 export class TodoList extends React.Component {
-    state = {
+    state = {        
         tasks: [],
-        text: "" ,
-             
+        text: "",
     };
 
     static navigationOptions = {
@@ -94,9 +35,14 @@ export class TodoList extends React.Component {
         if (notEmpty) {
             this.setState(
                 (prevState) => {
-                    let { tasks, text } = prevState;
+                    let { uid, id, tasks, text, completed } = prevState;
 
-                    var item = { key: tasks.length, text: text };
+                  //  var item = { key: tasks.length, text: text };
+                    var item = new ToDoItemClass(uid, id, tasks, text, completed);
+                    item.userId = "";
+                    item.id = tasks.length;
+                    item.title = text;
+                    item.completed = false;
 
                     var newArray = tasks;
                     newArray.unshift(item);
@@ -105,8 +51,7 @@ export class TodoList extends React.Component {
                         tasks: tasks.concat(newArray),
                         text: ""
                     };
-                },
-                () => Tasks.save(this.state.tasks)
+                }
             );
         }
     };
@@ -119,8 +64,7 @@ export class TodoList extends React.Component {
                 tasks.splice(i, 1);
 
                 return { tasks: tasks };
-            },
-            () => Tasks.save(this.state.tasks)
+            }
         );
     };
 
@@ -134,7 +78,6 @@ export class TodoList extends React.Component {
             isAndroid ? "keyboardDidHide" : "keyboardWillHide",
             () => this.setState({ viewPadding: viewPadding })
         );
-        Tasks.all(tasks => this.setState({ tasks: tasks || [] }));
 
         //AJAX 
         return fetch('https://jsonplaceholder.typicode.com/todos/')
@@ -167,12 +110,12 @@ export class TodoList extends React.Component {
                 <Text>{this.state.text}</Text>
                 <FlatList
                     style={styles.list}
-                    data= {this.state.tasks}
+                    data={this.state.tasks}
                     renderItem={({ item, index }) =>
                         <View>
                             <View style={styles.listItemCont}>
                                 <Text style={styles.listItem}>
-                                    {item.text}{item.title}
+                                    {item.title}
                                 </Text>
                                 <Button title="Go" onPress={() => {
                                     this.props.navigation.navigate('Details',
@@ -189,7 +132,7 @@ export class TodoList extends React.Component {
                             <View style={styles.hr} />
                         </View>}
                 />
-                <TextInput                                
+                <TextInput
                     style={styles.textInput}
                     onChangeText={this.changeTextHandler}
                     onSubmitEditing={this.addTask}
@@ -202,3 +145,41 @@ export class TodoList extends React.Component {
         );
     }
 }
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+        padding: viewPadding,
+        paddingTop: 20
+    },
+    list: {
+        width: "100%",
+    },
+    listItem: {
+        paddingTop: 2,
+        paddingBottom: 2,
+        fontSize: 18,
+        textAlign: "right",
+        flex: 1,
+        flexWrap: 'wrap'
+    },
+    hr: {
+        height: 1,
+        backgroundColor: "gray"
+    },
+    listItemCont: {
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "space-between"
+    },
+    textInput: {
+        height: 40,
+        paddingRight: 10,
+        paddingLeft: 10,
+        borderColor: "gray",
+        borderWidth: isAndroid ? 0 : 1,
+        width: "100%"
+    }
+});

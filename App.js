@@ -5,9 +5,11 @@ import {
 import { TodoList } from "./TodoList";
 import { DetailsScreen } from "./Details";
 import { createStackNavigator } from 'react-navigation';
+import { ToDoItemClass } from "./ToDoItemClass";
 
 AppRegistry.registerComponent("Details", () => DetailsScreen);
 AppRegistry.registerComponent("TodoList", () => TodoList);
+
 
 const RootStack = createStackNavigator(
 	{
