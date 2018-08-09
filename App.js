@@ -22,12 +22,12 @@ const RootStack = createStackNavigator(
 		initialRouteName: 'Home',
 		navigationOptions: {
 			headerStyle: {
-                backgroundColor: '#008080',
-            },
-            headerTintColor: '#fff',
-            headerTitleStyle: {
-                fontWeight: 'bold',
-            },
+				backgroundColor: '#008080',
+			},
+			headerTintColor: '#fff',
+			headerTitleStyle: {
+				fontWeight: 'bold',
+			},
 		},
 	}
 );

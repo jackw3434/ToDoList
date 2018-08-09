@@ -50,7 +50,9 @@ const styles = StyleSheet.create({
         paddingTop: 2,
         paddingBottom: 2,
         fontSize: 18,
-        textAlign: "right"
+        textAlign: "right",
+        flex: 1, 
+        flexWrap: 'wrap'
     },
     hr: {
         height: 1,
@@ -74,7 +76,7 @@ const styles = StyleSheet.create({
 export class TodoList extends React.Component {
     state = {
         tasks: [],
-        text: ""
+        text: ""       
     };
 
     static navigationOptions = {
@@ -129,6 +131,23 @@ export class TodoList extends React.Component {
             () => this.setState({ viewPadding: viewPadding })
         );
         Tasks.all(tasks => this.setState({ tasks: tasks || [] }));
+
+        //AJAX 
+        return fetch('https://jsonplaceholder.typicode.com/todos/')
+            .then((response) => {
+                return response.json();
+            }).then((responseJson) => {
+
+                this.setState({
+                    tasks: responseJson,
+                }, function () {
+
+                });
+
+            })
+            .catch((error) => {
+                console.error(error);
+            });
     }
 
     navigateTo(target) {
@@ -144,19 +163,18 @@ export class TodoList extends React.Component {
                 <Text>{this.state.text}</Text>
                 <FlatList
                     style={styles.list}
-                    data={this.state.tasks}
+                    data= {this.state.tasks}
                     renderItem={({ item, index }) =>
                         <View>
                             <View style={styles.listItemCont}>
                                 <Text style={styles.listItem}>
-                                    {item.text}
+                                    {item.title}
                                 </Text>
                                 <Button title="Go" onPress={() => {
                                     this.props.navigation.navigate('Details',
-                                        { ToDoItem: item.text, Index: index })
+                                        { ToDoItem: item.title, Index: index })
                                 }} />
-
-                                <Button title="Show Alert" onPress={() => Alert.alert('Alert Title', item.text,
+                                <Button title="Show Alert" onPress={() => Alert.alert('Alert Title', item.title,
                                     [{ text: 'Cancel', onPress: () => console.log('Cancel Pressed!') },
                                     { text: 'OK', onPress: () => console.log('Ok Pressed') },
                                     ],
@@ -167,7 +185,7 @@ export class TodoList extends React.Component {
                             <View style={styles.hr} />
                         </View>}
                 />
-                <TextInput
+                <TextInput                
                     style={styles.textInput}
                     onChangeText={this.changeTextHandler}
                     onSubmitEditing={this.addTask}
