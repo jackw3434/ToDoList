@@ -6,14 +6,19 @@ import { TodoList } from "./TodoList";
 import { DetailsScreen } from "./Details";
 import { createStackNavigator } from 'react-navigation';
 import { ToDoItemClass } from "./ToDoItemClass";
+import { HomePage } from "./HomePage";
 
 AppRegistry.registerComponent("Details", () => DetailsScreen);
 AppRegistry.registerComponent("TodoList", () => TodoList);
+AppRegistry.registerComponent("HomePage", () => HomePage);
 
 
 const RootStack = createStackNavigator(
 	{
 		Home: {
+			screen: HomePage,
+		},
+		List:{
 			screen: TodoList,
 		},
 		Details: {
