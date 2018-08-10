@@ -16,7 +16,7 @@ const isAndroid = Platform.OS == "android";
 const viewPadding = 10;
 
 export class TodoList extends React.Component {
-    state = {        
+    state = {
         tasks: [],
         text: "",
     };
@@ -37,7 +37,7 @@ export class TodoList extends React.Component {
                 (prevState) => {
                     let { uid, id, tasks, text, completed } = prevState;
 
-                  //  var item = { key: tasks.length, text: text };
+                    //  var item = { key: tasks.length, text: text };
                     var item = new ToDoItemClass(uid, id, tasks, text, completed);
                     item.userId = "";
                     item.id = tasks.length;
