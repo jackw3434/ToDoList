@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import {
     Image,
     Text,
@@ -20,7 +20,7 @@ export class HomePage extends React.Component {
                 </Text>
             </View>
             
-                <Image source={require('/Users/Jack/Desktop/Dev-Jack/ToDo App/ToDoList/download.png')} />
+                <Image source={require('/Users/Jack/Desktop/Dev-Jack/ToDo App/ToDoList/Components/Home/download.png')} />
                 <Text>Home Page</Text>
                 <Button title="Go" onPress={() => {
                     this.props.navigation.navigate('List')
